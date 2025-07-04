@@ -3,6 +3,7 @@ const pool = require('./database'); // require() will default to looking for the
                                     // ./ means SAME DIRECTORY AS THE CURRENT FILE
 
 const hbs = require('hbs');
+const cors = require('cors');
 
 const app = express();
 
@@ -17,6 +18,9 @@ app.use(express.static('public'));
 // enable express to use json for data communication
 app.use(express.json());
 
+// enable cross origin resources sharing for all domains
+app.use(cors());
+
 // enable express to process form
 app.use(express.urlencoded({
     extended: true
@@ -24,9 +28,17 @@ app.use(express.urlencoded({
 
 // Register routes
 const recipeApi = require('./routes/api/recipes');
+const categoriesApi = require('./routes/api/categories');
+const cuisinesApi = require('./routes/api/cuisines');
+const tagsApi = require('./routes/api/tags')
+
 const recipeAdminRouter = require('./routes/www/recipes');
 
 app.use('/api/recipes', recipeApi);
+app.use('/api/categories', categoriesApi);
+app.use('/api/cuisines', cuisinesApi);
+app.use('/api/tags', tagsApi);
+
 app.use('/admin/recipes', recipeAdminRouter);
 
 app.get('/', function (req, res) {

@@ -36,6 +36,7 @@ async function createRecipe(recipeData) {
     } catch (e) {
         // indicate error
         recipeId = false;
+        console.error(e);
         await connection.rollback(); // revert all the changes to the database donce since beginTransaction
     } finally {
         await connection.release();
